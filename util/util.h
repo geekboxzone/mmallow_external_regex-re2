@@ -42,7 +42,12 @@ using std::make_pair;
 
 #if defined(ANDROID)
 
-#include <unordered_set>
+#if defined(_STLPORT_VERSION)
+#include <unordered_set>      // using stlport
+#else
+#include <tr1/unordered_set>  // using gnustl
+#endif
+
 using std::tr1::unordered_set;
 
 #elif defined(__GNUC__) && !defined(USE_CXX0X)

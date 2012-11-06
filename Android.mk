@@ -6,7 +6,6 @@
 #
 
 LOCAL_PATH := $(call my-dir)
-include $(CLEAR_VARS)
 
 regexp_re2_files := \
 	util/arena.cc \
@@ -36,6 +35,9 @@ regexp_re2_files := \
 	re2/unicode_casefold.cc \
 	re2/unicode_groups.cc
 
+# Stlport version
+# =======================================================
+include $(CLEAR_VARS)
 LOCAL_MODULE := libregex-re2
 LOCAL_MODULE_TAGS := optional
 LOCAL_CPP_EXTENSION := .cc
@@ -43,4 +45,19 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/re2 \
 		    external/stlport
 LOCAL_SRC_FILES := $(regexp_re2_files)
 include external/stlport/libstlport.mk
+include $(BUILD_STATIC_LIBRARY)
+
+# Gnustl+rtti version
+# =======================================================
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libregex-re2-gnustl-rtti
+LOCAL_MODULE_TAGS := optional
+LOCAL_CPP_EXTENSION := .cc
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/re2
+LOCAL_SRC_FILES := $(regexp_re2_files)
+LOCAL_CFLAGS += -frtti
+LOCAL_NDK_STL_VARIANT := gnustl_static
+LOCAL_SDK_VERSION := 14
+
 include $(BUILD_STATIC_LIBRARY)
