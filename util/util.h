@@ -14,6 +14,7 @@
 #include <stdarg.h>
 #include <sys/time.h>
 #include <time.h>
+#include <ctype.h>	// For isdigit, isalpha.
 
 // C++
 #include <vector>
@@ -22,7 +23,7 @@
 #include <iosfwd>
 #include <map>
 #include <stack>
-#include <iostream>
+#include <ostream>
 #include <utility>
 #include <set>
 
@@ -47,9 +48,8 @@ using std::make_pair;
 #else
 #include <tr1/unordered_set>  // using gnustl
 #endif
-
 using std::tr1::unordered_set;
-
+ 
 #elif defined(__GNUC__) && !defined(USE_CXX0X)
 
 #include <tr1/unordered_set>
@@ -92,6 +92,7 @@ template<bool> struct CompileAssert {};
 
 // Fake lock annotations.  For real ones, see
 // http://code.google.com/p/data-race-test/
+#ifndef ANNOTATE_PUBLISH_MEMORY_RANGE
 #define ANNOTATE_PUBLISH_MEMORY_RANGE(a, b)
 #define ANNOTATE_IGNORE_WRITES_BEGIN()
 #define ANNOTATE_IGNORE_WRITES_END()
@@ -99,6 +100,8 @@ template<bool> struct CompileAssert {};
 #define NO_THREAD_SAFETY_ANALYSIS
 #define ANNOTATE_HAPPENS_BEFORE(x)
 #define ANNOTATE_HAPPENS_AFTER(x)
+#define ANNOTATE_UNPROTECTED_READ(x) (x)
+#endif
 
 class StringPiece;
 
